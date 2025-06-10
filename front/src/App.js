@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+// import { SearchBar } from "./components/molécules";
+import { Navbar, SideBar } from "./components/organism";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="d-flex">
+      <SideBar />
+      <div className="flex-grow-1">
+        <Navbar />
+        <main className="p-4">
+          <h1 className="text-center">Bienvenue sur le dashboard</h1>
+        </main>
+      </div>
     </div>
   );
 }
