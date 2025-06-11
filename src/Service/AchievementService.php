@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\Event\AchievementUnlockedEvent;
 
-class AchievementService
+class AchievementService implements AchievementServiceInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

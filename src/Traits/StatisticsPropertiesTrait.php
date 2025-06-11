@@ -5,7 +5,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-
 trait StatisticsPropertiesTrait
 {
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -16,10 +15,10 @@ trait StatisticsPropertiesTrait
     #[Groups(['stats'])]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\Column(length: 10)]
+    // CORRIGÉ : nullable: false et valeur par défaut
+    #[ORM\Column(length: 10, nullable: false)]
     #[Groups(['stats'])]
-    private ?string $status = null;
-
+    private string $status = 'active';
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -29,7 +28,6 @@ trait StatisticsPropertiesTrait
     public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -41,11 +39,10 @@ trait StatisticsPropertiesTrait
     public function setUpdatedAt(\DateTimeInterface $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -53,22 +50,26 @@ trait StatisticsPropertiesTrait
     public function setStatus(string $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 
     #[ORM\PrePersist]
     public function intializeTimestamps(): void
     {
-        $this->setCreatedAt(new \DateTime());
+        if ($this->createdAt === null) {
+            $this->setCreatedAt(new \DateTime());
+        }
         $this->setUpdatedAt(new \DateTime());
 
+        // Initialiser le status s'il n'est pas défini
+        if (empty($this->status)) {
+            $this->setStatus('active');
+        }
     }
 
     #[ORM\PreUpdate]
     public function updateTimestamp(): void
     {
         $this->setUpdatedAt(new \DateTime());
-
     }
 }

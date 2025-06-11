@@ -92,13 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user'])]
     private ?array $preferences = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['user'])]
-    private ?\DateTimeInterface $createdAt = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['user'])]
-    private ?\DateTimeInterface $updatedAt = null;
+    // SUPPRIMÉ : createdAt, updatedAt, status (viennent du trait)
 
     /**
      * @var Collection<int, Goal>
@@ -123,8 +117,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->longestStreak = 0;
         $this->unitSystem = 'metric';
         $this->locale = 'fr';
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+
+        // IMPORTANT : Initialiser le status depuis le trait
+        $this->setStatus('active');
+
+        // Les dates sont gérées par le trait via @PrePersist
     }
 
     public function getId(): ?int
@@ -321,27 +318,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
+    // SUPPRIMÉ : getCreatedAt, setCreatedAt, getUpdatedAt, setUpdatedAt (viennent du trait)
+    // SUPPRIMÉ : getStatus, setStatus (viennent du trait)
 
     /**
      * @return Collection<int, Goal>
@@ -397,11 +375,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    #[ORM\PreUpdate]
-    public function preUpdate(): void
-    {
-        $this->updatedAt = new \DateTime();
-    }
+    // SUPPRIMÉ : @PreUpdate car déjà dans le trait
 
     /**
      * Retourne le nom complet de l'utilisateur
@@ -627,7 +601,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'totalAchievements' => $this->userAchievements->count(),
             'recentAchievements' => $this->getRecentAchievements()->count(),
             'averageCompletion' => $this->getAverageGoalCompletion(),
-            'daysActive' => $this->createdAt ? (new \DateTime())->diff($this->createdAt)->days : 0,
+            'daysActive' => $this->getCreatedAt() ? (new \DateTime())->diff($this->getCreatedAt())->days : 0,
         ];
     }
 

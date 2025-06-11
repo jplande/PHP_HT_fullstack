@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -73,8 +74,10 @@ class Category
 
     /**
      * @var Collection<int, Goal>
+     * IMPORTANT: Ne pas inclure dans les groupes de sérialisation pour éviter les références circulaires
      */
     #[ORM\OneToMany(targetEntity: Goal::class, mappedBy: 'category')]
+    #[MaxDepth(1)]
     private Collection $goals;
 
     public function __construct()
@@ -83,6 +86,8 @@ class Category
         $this->isActive = true;
         $this->displayOrder = 0;
     }
+
+    // ... le reste de vos getters/setters reste identique
 
     public function getId(): ?int
     {
