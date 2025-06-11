@@ -8,6 +8,7 @@ import {
     faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button, Title } from "../atoms";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
     return (
@@ -28,19 +29,16 @@ const SideBar = () => {
                     </div>
                     <ul className="nav-main list-unstyled">
                         <li className="nav-main-item mb-2">
-                            <Button
-                                className="btn btn-dark w-100 text-start py-2"
-                                onClick={() => {
-                                    console.log("Logout clicked");
-                                }}
-                            >
-                                <span className="d-inline-flex align-items-center">
-                                    <FontAwesomeIcon icon={faBars} />
-                                    <Title className="ms-2 mb-0">
-                                        Dashboard
-                                    </Title>
-                                </span>
-                            </Button>
+                            <Link to ="/">
+                                <Button className="btn btn-dark w-100 text-start py-2">
+                                    <span className="d-inline-flex align-items-center">
+                                        <FontAwesomeIcon icon={faBars} />
+                                        <Title className="ms-2 mb-0">
+                                            Dashboard
+                                        </Title>
+                                    </span>
+                                </Button>
+                            </Link>
                         </li>
 
                         <li class="nav-main-item mb-2">

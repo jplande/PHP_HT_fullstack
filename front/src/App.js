@@ -1,19 +1,8 @@
-import "./App.css";
-// import { SearchBar } from "./components/molécules";
-import { Navbar, SideBar } from "./components/organism";
+import Router from './Router';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  return (
-    <div className="d-flex">
-      <SideBar />
-      <div className="flex-grow-1">
-        <Navbar />
-        <main className="p-4">
-          <h1 className="text-center">Bienvenue sur le dashboard</h1>
-        </main>
-      </div>
-    </div>
-  );
+  return <Router />;
 }
 
 export default App;
