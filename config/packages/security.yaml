@@ -10,35 +10,40 @@ security:
             entity:
                 class: App\Entity\User
                 property: username
+    
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        
+        # Login endpoint pour JWT
         login:
-            pattern: ^/api/login
+            pattern: ^/api/login_check
             stateless: true
             json_login:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        
+        # API protégée par JWT
         api:
             pattern: ^/api
             stateless: true
             entry_point: jwt
-            json_login:
-                check_path: /api/login # or, if you have defined a route for your login path, the route name you used
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
             jwt: ~
             refresh_jwt:
-                check_path: /api/token/refresh # or, you may use the `api_refresh_token` route name
+                check_path: /api/token/refresh
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/(login|token/refresh), roles: PUBLIC_ACCESS }
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/doc, roles: PUBLIC_ACCESS }
+        # Endpoints publics (pas d'authentification requise)
+        - { path: ^/api/users$, roles: PUBLIC_ACCESS, methods: [POST] }  # Création d'utilisateur
+        - { path: ^/api/login_check, roles: PUBLIC_ACCESS }              # Login JWT
+        - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }            # Refresh token
+        - { path: ^/api/doc, roles: PUBLIC_ACCESS }                      # Documentation API
+        
+        # Tout le reste de l'API nécessite une authentification
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
