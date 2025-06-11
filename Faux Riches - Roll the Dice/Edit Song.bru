@@ -1,0 +1,17 @@
+meta {
+  name: Edit Song
+  type: http
+  seq: 6
+}
+
+patch {
+  url: localhost/api/v1/song/215
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "artiste": "Maitre Gims"
+  }
+}
