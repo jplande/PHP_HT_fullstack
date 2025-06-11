@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: GoalRepository::class)]
 class Goal
 {
-    // Utilisation du trait - la propriété $status du trait sera utilisée
+    // IMPORTANT: Le trait contient déjà createdAt, updatedAt et status
     use StatisticsPropertiesTrait;
 
     #[ORM\Id]
@@ -44,19 +44,6 @@ class Goal
     #[Assert\Choice(choices: ['daily', 'weekly', 'monthly'], message: 'La fréquence doit être daily, weekly ou monthly')]
     private ?string $frequencyType = null;
 
-    public function getStatus(): ?string
-    {
-        return $this->status ?? 'active';
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['goal'])]
     #[Assert\NotNull(message: 'La date de début est obligatoire')]
@@ -66,13 +53,7 @@ class Goal
     #[Groups(['goal'])]
     private ?\DateTimeInterface $endDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['goal'])]
-    private ?\DateTimeInterface $createdAt = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['goal'])]
-    private ?\DateTimeInterface $updatedAt = null;
+    // SUPPRIMÉ: createdAt et updatedAt car ils viennent du trait
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'goals')]
     #[ORM\JoinColumn(nullable: false)]
@@ -107,8 +88,11 @@ class Goal
         $this->metrics = new ArrayCollection();
         $this->progressEntries = new ArrayCollection();
         $this->sessions = new ArrayCollection();
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+
+        // IMPORTANT: Initialiser le status depuis le trait
+        $this->setStatus('active');
+
+        // Les dates sont gérées par le trait via @PrePersist
     }
 
     public function getId(): ?int
@@ -149,8 +133,6 @@ class Goal
         return $this;
     }
 
-
-
     public function getStartDate(): ?\DateTimeInterface
     {
         return $this->startDate;
@@ -173,27 +155,7 @@ class Goal
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
+    // SUPPRIMÉ: getCreatedAt, setCreatedAt, getUpdatedAt, setUpdatedAt car ils viennent du trait
 
     public function getCategory(): ?Category
     {
@@ -298,11 +260,7 @@ class Goal
         return $this;
     }
 
-    #[ORM\PreUpdate]
-    public function preUpdate(): void
-    {
-        $this->updatedAt = new \DateTime();
-    }
+    // SUPPRIMÉ: @PreUpdate car déjà dans le trait
 
     /**
      * Méthode utilitaire pour obtenir la métrique principale
@@ -349,7 +307,6 @@ class Goal
      */
     public function getLatestProgress(Metric $metric): ?Progress
     {
-        $criteria = ['goal' => $this, 'metric' => $metric];
         $latestProgress = null;
         $latestDate = null;
 
@@ -364,6 +321,4 @@ class Goal
 
         return $latestProgress;
     }
-
-
 }
