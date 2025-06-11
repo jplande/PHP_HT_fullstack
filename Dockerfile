@@ -42,12 +42,9 @@ ENV MERCURE_TRANSPORT_URL=bolt:///data/mercure.db
 ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
 
 ###> recipes ###
-<<<<<<< HEAD
-=======
 ###> doctrine/doctrine-bundle ###
 RUN install-php-extensions pdo_pgsql
 ###< doctrine/doctrine-bundle ###
->>>>>>> master
 ###< recipes ###
 
 COPY --link frankenphp/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
