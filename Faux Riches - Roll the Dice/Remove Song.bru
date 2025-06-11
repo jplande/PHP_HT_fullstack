@@ -1,0 +1,17 @@
+meta {
+  name: Remove Song
+  type: http
+  seq: 7
+}
+
+delete {
+  url: localhost/api/v1/song/218
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "hard":true
+  }
+}

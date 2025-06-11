@@ -1,0 +1,19 @@
+meta {
+  name: Create Song
+  type: http
+  seq: 3
+}
+
+post {
+  url: localhost/api/v1/song
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name":"exXXX",
+    "artiste": "super genial",
+    "idPool":19
+  }
+}

@@ -1,0 +1,15 @@
+meta {
+  name: get all song
+  type: http
+  seq: 4
+}
+
+get {
+  url: localhost/api/v1/song
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file()
+}
