@@ -1,5 +1,5 @@
-import CreateAGoal from "./CreateAGoal";
 import Layout from "../components/organism/Layout";
 import Home from "./Home";
+import GoalList from "./GoalList";
 
-export {CreateAGoal, Layout, Home};
+export { Layout, Home, GoalList};

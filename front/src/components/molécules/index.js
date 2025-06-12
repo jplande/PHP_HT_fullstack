@@ -1,3 +1,4 @@
 import SearchBar from "./SearchBar";
+import ModalHeader from "./ModalHeader";
 
-export { SearchBar };
+export { SearchBar, ModalHeader };

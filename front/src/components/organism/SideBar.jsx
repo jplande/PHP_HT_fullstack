@@ -29,7 +29,7 @@ const SideBar = () => {
                     </div>
                     <ul className="nav-main list-unstyled">
                         <li className="nav-main-item mb-2">
-                            <Link to ="/">
+                            <Link to="/">
                                 <Button className="btn btn-dark w-100 text-start py-2">
                                     <span className="d-inline-flex align-items-center">
                                         <FontAwesomeIcon icon={faBars} />
@@ -42,18 +42,19 @@ const SideBar = () => {
                         </li>
 
                         <li class="nav-main-item mb-2">
-                            <Button
-                                className="btn btn-dark w-100 text-start py-2"
-                                onClick={() => {}}
-                            >
-                                <span className="d-inline-flex align-items-center">
-                                    <FontAwesomeIcon icon={faListCheck} />
-                                    <Title className="ms-2 mb-0">
-                                        {" "}
-                                        Objectifs{" "}
-                                    </Title>
-                                </span>
-                            </Button>
+                            <Link to="/goal-list">
+                                <Button
+                                    className="btn btn-dark w-100 text-start py-2"
+                                    onClick={() => {}}
+                                >
+                                    <span className="d-inline-flex align-items-center">
+                                        <FontAwesomeIcon icon={faListCheck} />
+                                        <Title className="ms-2 mb-0">
+                                            Objectifs
+                                        </Title>
+                                    </span>
+                                </Button>
+                            </Link>
                         </li>
 
                         <li class="nav-main-item mb-2">
