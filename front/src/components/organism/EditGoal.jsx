@@ -51,7 +51,7 @@ const CreateGoalModal = ({ show, onHide, onSave }) => {
 
         try {
             const response = await fetch("/api/v1/goals", {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -93,7 +93,7 @@ const CreateGoalModal = ({ show, onHide, onSave }) => {
                         setFormData={setFormData}
                         errors={errors}
                         handleSubmit={handleSubmit}
-                        submitLabel="Créer l'objectif"
+                        submitLabel="Modifier l'objectif"
                         onHide={onHide}
                     />
                 </div>

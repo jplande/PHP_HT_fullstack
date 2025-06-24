@@ -1,8 +1,36 @@
 // organisms/GoalTable.js
+import React, { useState } from "react";
 import Title from "../atoms/Title";
 import {GoalRow } from "../molécules";
 
-const GoalTable = ({ goals = [], onEdit, onDelete }) =>  { 
+const GoalTable = ({onEdit, onDelete}) =>  { 
+      const [goals, setGoals] = useState([
+        {
+            id: "4",
+            title: "Faire du sport",
+            description: "Courir 3 fois par semaine",
+            status: "En cours",
+        },
+        {
+            id: "5",
+            title: "Lire un livre",
+            description: "Terminer un chapitre par jour",
+            status: "Non commencé",
+        },
+        {
+            id: "6",
+            title: "Apprendre React",
+            description: "Suivre une formation",
+            status: "Terminé",
+        },
+    ]);
+
+    
+    // const handleDelete = (id) => {
+    //     console.log("Suppression du goal avec l'ID :", id);
+    //     setGoals(goals.filter((goal) => goal.id !== id));
+    // };
+
     return (
         
     <div className="container-fluide mt-4">
